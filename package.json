@@ -1,6 +1,6 @@
 {
     "name": "castle-event-block",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "A custom Gutenberg block for highlighting special events at the castle.",
     "author": "Hanscom Park Studio",
     "license": "GPL-2.0-or-later",

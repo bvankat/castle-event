@@ -80,6 +80,13 @@
     text-decoration: underline;
 }
 
+/* Display Date */
+.castle-event-block__display-date {
+    margin: 0.5rem 0 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
 /* Blurb */
 .castle-event-block__blurb {
     margin: 0;

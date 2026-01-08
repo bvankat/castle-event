@@ -92,6 +92,13 @@
     outline: none;
 }
 
+/* Display Date field */
+.castle-event-block-editor .castle-event-block__display-date {
+    margin: 0.5rem 0 1rem;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
 /* Blurb field */
 .castle-event-block-editor .castle-event-block__blurb {
     margin: 0;

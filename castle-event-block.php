@@ -106,6 +106,10 @@ function castle_event_block_init() {
                 'type'    => 'string',
                 'default' => 'center',
             ),
+            'displayDate' => array(
+                'type'    => 'string',
+                'default' => '',
+            ),
         ),
     ) );
 }
@@ -125,6 +129,7 @@ function castle_event_block_render( $attributes ) {
     $show_button  = $attributes['showButton'] ?? true;
     $end_date     = $attributes['endDate'] ?? '';
     $aspect_ratio = $attributes['aspectRatio'] ?? '4:3';
+    $display_date = wp_kses_post( $attributes['displayDate'] ?? '' );
     $stack_mobile = isset( $attributes['stackOnMobile'] ) ? (bool) $attributes['stackOnMobile'] : true;
     $media_pos    = $attributes['mediaPosition'] ?? 'left';
     $media_width  = isset( $attributes['mediaWidth'] ) ? (int) $attributes['mediaWidth'] : 50;
@@ -210,6 +215,10 @@ function castle_event_block_render( $attributes ) {
                         <?php echo $title; ?>
                     <?php endif; ?>
                 </h3>
+            <?php endif; ?>
+            
+            <?php if ( ! empty( $display_date ) ) : ?>
+                <div class="castle-event-block__display-date"><?php echo $display_date; ?></div>
             <?php endif; ?>
             
             <?php if ( ! $is_past_event && ! empty( $blurb ) ) : ?>

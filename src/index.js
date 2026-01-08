@@ -100,6 +100,10 @@
                 type: 'string',
                 default: 'center', // 'top' | 'center' | 'bottom'
             },
+            displayDate: {
+                type: 'string',
+                default: '',
+            },
         },
 
         edit: function( props ) {
@@ -118,7 +122,8 @@
                 stackOnMobile,
                 mediaPosition,
                 mediaWidth,
-                verticalAlignment
+                verticalAlignment,
+                displayDate
             } = attributes;
 
             var gridColumns = ( mediaPosition === 'right' )
@@ -201,6 +206,12 @@
                             max: 85,
                             step: 1
                         } ),
+                        el( TextControl, {
+                            label: __( 'Display Date', 'castle-event-block' ),
+                            value: displayDate,
+                            onChange: function( value ) { setAttributes( { displayDate: value } ); },
+                            placeholder: 'e.g., January 15 – March 20'
+                        }),
                         el( SelectControl, {
                             label: __( 'Aspect Ratio', 'castle-event-block' ),
                             value: aspectRatio,
@@ -306,6 +317,9 @@
                             placeholder: __( 'Event Title', 'castle-event-block' ),
                             allowedFormats: []
                         }),
+                        displayDate && el( 'div', { className: 'castle-event-block__display-date' },
+                            displayDate
+                        ),
                         el( 'div', { className: 'castle-event-block__blurb-wrapper' + ( isPastEvent ? ' is-past-event' : '' ) },
                             isPastEvent && el( 'span', { className: 'castle-event-block__past-notice' },
                                 __( 'Hidden (past event)', 'castle-event-block' )

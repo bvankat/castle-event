@@ -5,7 +5,7 @@
 /* Editor wrapper */
 .castle-event-block-editor {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: var(--castle-grid-columns, 1fr 1fr);
     gap: 2rem;
     align-items: start;
     padding: 1rem;
@@ -159,4 +159,15 @@
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
+    .castle-event-block-editor.is-not-stacked-on-mobile {
+        grid-template-columns: var(--castle-grid-columns, 1fr 1fr);
+    }
+}
+
+/* Media right in editor */
+.castle-event-block-editor.is-media-right .castle-event-block__image-column {
+    grid-column: 2;
+}
+.castle-event-block-editor.is-media-right .castle-event-block__content-column {
+    grid-column: 1;
 }

@@ -90,6 +90,18 @@ function castle_event_block_init() {
                 'type'    => 'string',
                 'default' => 'original',
             ),
+            'stackOnMobile' => array(
+                'type'    => 'boolean',
+                'default' => true,
+            ),
+            'mediaPosition' => array(
+                'type'    => 'string',
+                'default' => 'left',
+            ),
+            'mediaWidth' => array(
+                'type'    => 'number',
+                'default' => 50,
+            ),
         ),
     ) );
 }
@@ -109,6 +121,9 @@ function castle_event_block_render( $attributes ) {
     $show_button  = $attributes['showButton'] ?? true;
     $end_date     = $attributes['endDate'] ?? '';
     $aspect_ratio = $attributes['aspectRatio'] ?? '4:3';
+    $stack_mobile = isset( $attributes['stackOnMobile'] ) ? (bool) $attributes['stackOnMobile'] : true;
+    $media_pos    = $attributes['mediaPosition'] ?? 'left';
+    $media_width  = isset( $attributes['mediaWidth'] ) ? (int) $attributes['mediaWidth'] : 50;
 
     // Calculate aspect ratio padding percentage
     $aspect_ratios = array(
@@ -138,11 +153,20 @@ function castle_event_block_render( $attributes ) {
     if ( $is_past_event ) {
         $additional_classes[] = 'is-past-event';
     }
+    if ( 'right' === $media_pos ) {
+        $additional_classes[] = 'is-media-right';
+    }
+    if ( ! $stack_mobile ) {
+        $additional_classes[] = 'is-not-stacked-on-mobile';
+    }
+
+    // Grid columns via CSS variable so mobile stacking can override
+    $grid_columns = ( 'right' === $media_pos ) ? '1fr ' . $media_width . '%' : $media_width . '% 1fr';
 
     // Start output buffer
     ob_start();
     ?>
-    <div <?php echo get_block_wrapper_attributes( array( 'class' => implode( ' ', $additional_classes ) ) ); ?>>
+    <div <?php echo get_block_wrapper_attributes( array( 'class' => implode( ' ', $additional_classes ), 'style' => '--castle-grid-columns: ' . esc_attr( $grid_columns ) . ';' ) ); ?>>
         <div class="castle-event-block__image-column">
             <?php if ( ! empty( $link_url ) ) : ?>
                 <a href="<?php echo $link_url; ?>" class="castle-event-block__image-link">

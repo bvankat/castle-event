@@ -10,7 +10,8 @@
         MediaUpload, 
         MediaUploadCheck,
         RichText,
-        InspectorControls
+        InspectorControls,
+        BlockControls
     } = wp.blockEditor;
     const { 
         PanelBody, 
@@ -19,7 +20,10 @@
         DatePicker,
         Placeholder,
         ToggleControl,
-        SelectControl
+        SelectControl,
+        RangeControl,
+        ToolbarGroup,
+        ToolbarButton
     } = wp.components;
     const { Fragment, createElement: el } = wp.element;
     const { __ } = wp.i18n;
@@ -79,6 +83,18 @@
                 type: 'string',
                 default: 'original',
             },
+            stackOnMobile: {
+                type: 'boolean',
+                default: true,
+            },
+            mediaPosition: {
+                type: 'string',
+                default: 'left', // 'left' | 'right'
+            },
+            mediaWidth: {
+                type: 'number',
+                default: 50, // percentage
+            },
         },
 
         edit: function( props ) {
@@ -93,11 +109,21 @@
                 buttonText,
                 showButton,
                 endDate,
-                aspectRatio
+                aspectRatio,
+                stackOnMobile,
+                mediaPosition,
+                mediaWidth
             } = attributes;
 
+            var gridColumns = ( mediaPosition === 'right' )
+                ? '1fr ' + mediaWidth + '%'
+                : mediaWidth + '% 1fr';
+
             const blockProps = useBlockProps({
-                className: 'castle-event-block-editor'
+                className: 'castle-event-block-editor' 
+                    + ( mediaPosition === 'right' ? ' is-media-right' : '' )
+                    + ( stackOnMobile ? '' : ' is-not-stacked-on-mobile' ),
+                style: { '--castle-grid-columns': gridColumns }
             });
 
             const onSelectImage = function( media ) {
@@ -133,8 +159,37 @@
             var aspectPadding = aspectRatios.hasOwnProperty( aspectRatio ) ? aspectRatios[ aspectRatio ] : 75;
 
             return el( Fragment, {},
+                el( BlockControls, {},
+                    el( ToolbarGroup, {},
+                        el( ToolbarButton, {
+                            icon: 'align-pull-left',
+                            label: __( 'Show media on left', 'castle-event-block' ),
+                            isPressed: mediaPosition === 'left',
+                            onClick: function() { setAttributes( { mediaPosition: 'left' } ); }
+                        } ),
+                        el( ToolbarButton, {
+                            icon: 'align-pull-right',
+                            label: __( 'Show media on right', 'castle-event-block' ),
+                            isPressed: mediaPosition === 'right',
+                            onClick: function() { setAttributes( { mediaPosition: 'right' } ); }
+                        } )
+                    )
+                ),
                 el( InspectorControls, {},
                     el( PanelBody, { title: __( 'Event Settings', 'castle-event-block' ), initialOpen: true },
+                        el( ToggleControl, {
+                            label: __( 'Stack on mobile', 'castle-event-block' ),
+                            checked: stackOnMobile,
+                            onChange: function( value ) { setAttributes( { stackOnMobile: value } ); }
+                        } ),
+                        el( RangeControl, {
+                            label: __( 'Media width (%)', 'castle-event-block' ),
+                            value: mediaWidth,
+                            onChange: function( value ) { setAttributes( { mediaWidth: value } ); },
+                            min: 15,
+                            max: 85,
+                            step: 1
+                        } ),
                         el( SelectControl, {
                             label: __( 'Aspect Ratio', 'castle-event-block' ),
                             value: aspectRatio,

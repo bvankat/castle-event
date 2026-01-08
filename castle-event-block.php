@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Castle Event Block
  * Description: A custom Gutenberg block for highlighting special events at the castle.
- * Version: 0.1.0
+ * Version: 0.1.1
  * Author: Hanscom Park Studio
  * Text Domain: castle-event-block
  */
@@ -46,6 +46,9 @@ function castle_event_block_init() {
         'editor_style'    => 'castle-event-block-editor-style',
         'style'           => 'castle-event-block-style',
         'render_callback' => 'castle_event_block_render',
+        'supports'        => array(
+            'align' => array( 'wide', 'full' ),
+        ),
         'attributes'      => array(
             'imageId' => array(
                 'type'    => 'number',
@@ -83,10 +86,6 @@ function castle_event_block_init() {
                 'type'    => 'string',
                 'default' => '',
             ),
-            'align' => array(
-                'type'    => 'string',
-                'default' => '',
-            ),
             'aspectRatio' => array(
                 'type'    => 'string',
                 'default' => '4:3',
@@ -109,7 +108,6 @@ function castle_event_block_render( $attributes ) {
     $button_text  = esc_html( $attributes['buttonText'] ?? 'Learn More' );
     $show_button  = $attributes['showButton'] ?? true;
     $end_date     = $attributes['endDate'] ?? '';
-    $align        = $attributes['align'] ?? '';
     $aspect_ratio = $attributes['aspectRatio'] ?? '4:3';
 
     // Calculate aspect ratio padding percentage
@@ -135,19 +133,16 @@ function castle_event_block_render( $attributes ) {
         }
     }
 
-    // Build CSS classes
-    $wrapper_class = 'wp-block-castle-event-block';
-    if ( $align ) {
-        $wrapper_class .= ' align' . $align;
-    }
+    // Additional wrapper classes (alignment handled by block supports)
+    $additional_classes = array();
     if ( $is_past_event ) {
-        $wrapper_class .= ' is-past-event';
+        $additional_classes[] = 'is-past-event';
     }
 
     // Start output buffer
     ob_start();
     ?>
-    <div class="<?php echo esc_attr( $wrapper_class ); ?>">
+    <div <?php echo get_block_wrapper_attributes( array( 'class' => implode( ' ', $additional_classes ) ) ); ?>>
         <div class="castle-event-block__image-column">
             <?php if ( ! empty( $link_url ) ) : ?>
                 <a href="<?php echo $link_url; ?>" class="castle-event-block__image-link">

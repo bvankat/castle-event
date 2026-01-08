@@ -10,9 +10,7 @@
         MediaUpload, 
         MediaUploadCheck,
         RichText,
-        InspectorControls,
-        BlockControls,
-        BlockAlignmentToolbar
+        InspectorControls
     } = wp.blockEditor;
     const { 
         PanelBody, 
@@ -77,10 +75,6 @@
                 type: 'string',
                 default: '',
             },
-            align: {
-                type: 'string',
-                default: '',
-            },
             aspectRatio: {
                 type: 'string',
                 default: '4:3',
@@ -99,12 +93,11 @@
                 buttonText,
                 showButton,
                 endDate,
-                align,
                 aspectRatio
             } = attributes;
 
             const blockProps = useBlockProps({
-                className: 'castle-event-block-editor' + ( align ? ' align' + align : '' )
+                className: 'castle-event-block-editor'
             });
 
             const onSelectImage = function( media ) {
@@ -140,13 +133,6 @@
             const aspectPadding = aspectRatios[ aspectRatio ] || 75;
 
             return el( Fragment, {},
-                el( BlockControls, {},
-                    el( BlockAlignmentToolbar, {
-                        value: align,
-                        onChange: function( value ) { setAttributes({ align: value }); },
-                        controls: [ 'wide', 'full' ]
-                    })
-                ),
                 el( InspectorControls, {},
                     el( PanelBody, { title: __( 'Event Settings', 'castle-event-block' ), initialOpen: true },
                         el( SelectControl, {

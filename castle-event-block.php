@@ -88,7 +88,7 @@ function castle_event_block_init() {
             ),
             'aspectRatio' => array(
                 'type'    => 'string',
-                'default' => '4:3',
+                'default' => 'original',
             ),
         ),
     ) );

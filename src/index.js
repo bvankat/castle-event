@@ -77,7 +77,7 @@
             },
             aspectRatio: {
                 type: 'string',
-                default: '4:3',
+                default: 'original',
             },
         },
 
@@ -130,7 +130,7 @@
                 '16:9': 56.25,
                 '9:16': 177.78,
             };
-            const aspectPadding = aspectRatios[ aspectRatio ] || 75;
+            var aspectPadding = aspectRatios.hasOwnProperty( aspectRatio ) ? aspectRatios[ aspectRatio ] : 75;
 
             return el( Fragment, {},
                 el( InspectorControls, {},

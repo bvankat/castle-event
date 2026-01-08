@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Castle Event Block
  * Description: A custom Gutenberg block for highlighting special events at the castle.
- * Version: 0.1.1
+ * Version: 0.2.0
  * Author: Hanscom Park Studio
  * Text Domain: castle-event-block
  */

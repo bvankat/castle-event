@@ -12,7 +12,8 @@
         RichText,
         InspectorControls,
         BlockControls,
-        BlockVerticalAlignmentToolbar
+        BlockVerticalAlignmentToolbar,
+        useSetting
     } = wp.blockEditor;
     const { 
         PanelBody, 
@@ -24,7 +25,8 @@
         SelectControl,
         RangeControl,
         ToolbarGroup,
-        ToolbarButton
+        ToolbarButton,
+        ColorPalette
     } = wp.components;
     const { Fragment, createElement: el } = wp.element;
     const { __ } = wp.i18n;
@@ -104,6 +106,14 @@
                 type: 'string',
                 default: '',
             },
+            backgroundColor: {
+                type: 'string',
+                default: '',
+            },
+            textColor: {
+                type: 'string',
+                default: '',
+            },
         },
 
         edit: function( props ) {
@@ -123,7 +133,9 @@
                 mediaPosition,
                 mediaWidth,
                 verticalAlignment,
-                displayDate
+                displayDate,
+                backgroundColor,
+                textColor
             } = attributes;
 
             var gridColumns = ( mediaPosition === 'right' )
@@ -135,7 +147,11 @@
                     + ( mediaPosition === 'right' ? ' is-media-right' : '' )
                     + ( stackOnMobile ? '' : ' is-not-stacked-on-mobile' )
                     + ( verticalAlignment ? ' is-vertically-aligned-' + verticalAlignment : '' ),
-                style: { '--castle-grid-columns': gridColumns }
+                style: { 
+                    '--castle-grid-columns': gridColumns,
+                    backgroundColor: backgroundColor || undefined,
+                    color: textColor || undefined
+                }
             });
 
             const onSelectImage = function( media ) {
@@ -192,6 +208,28 @@
                     })
                 ),
                 el( InspectorControls, {},
+                    el( PanelBody, { title: __( 'Colors', 'castle-event-block' ), initialOpen: false },
+                        el( 'div', {},
+                            el( 'label', { className: 'components-base-control__label' },
+                                __( 'Background Color', 'castle-event-block' )
+                            ),
+                            el( ColorPalette, {
+                                value: backgroundColor,
+                                onChange: function( value ) { setAttributes( { backgroundColor: value } ); },
+                                disableCustomColors: false
+                            } )
+                        ),
+                        el( 'div', { style: { marginTop: '1rem' } },
+                            el( 'label', { className: 'components-base-control__label' },
+                                __( 'Text Color', 'castle-event-block' )
+                            ),
+                            el( ColorPalette, {
+                                value: textColor,
+                                onChange: function( value ) { setAttributes( { textColor: value } ); },
+                                disableCustomColors: false
+                            } )
+                        )
+                    ),
                     el( PanelBody, { title: __( 'Event Settings', 'castle-event-block' ), initialOpen: true },
                         el( ToggleControl, {
                             label: __( 'Stack on mobile', 'castle-event-block' ),

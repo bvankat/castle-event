@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Castle Event Block
  * Description: A custom Gutenberg block for highlighting special events at the castle.
- * Version: 0.2.0
+ * Version: 0.2.1
  * Author: Hanscom Park Studio
  * Text Domain: castle-event-block
  */
@@ -110,6 +110,14 @@ function castle_event_block_init() {
                 'type'    => 'string',
                 'default' => '',
             ),
+            'backgroundColor' => array(
+                'type'    => 'string',
+                'default' => '',
+            ),
+            'textColor' => array(
+                'type'    => 'string',
+                'default' => '',
+            ),
         ),
     ) );
 }
@@ -133,6 +141,8 @@ function castle_event_block_render( $attributes ) {
     $stack_mobile = isset( $attributes['stackOnMobile'] ) ? (bool) $attributes['stackOnMobile'] : true;
     $media_pos    = $attributes['mediaPosition'] ?? 'left';
     $media_width  = isset( $attributes['mediaWidth'] ) ? (int) $attributes['mediaWidth'] : 50;
+    $bg_color     = $attributes['backgroundColor'] ?? '';
+    $text_color   = $attributes['textColor'] ?? '';
 
     // Calculate aspect ratio padding percentage
     $aspect_ratios = array(
@@ -176,10 +186,19 @@ function castle_event_block_render( $attributes ) {
         $additional_classes[] = 'is-vertically-aligned-' . $vertical_alignment;
     }
 
+    // Build inline styles for colors
+    $inline_styles = '--castle-grid-columns: ' . esc_attr( $grid_columns ) . ';';
+    if ( ! empty( $bg_color ) ) {
+        $inline_styles .= ' background-color: ' . esc_attr( $bg_color ) . ';';
+    }
+    if ( ! empty( $text_color ) ) {
+        $inline_styles .= ' color: ' . esc_attr( $text_color ) . ';';
+    }
+
     // Start output buffer
     ob_start();
     ?>
-    <div <?php echo get_block_wrapper_attributes( array( 'class' => implode( ' ', $additional_classes ), 'style' => '--castle-grid-columns: ' . esc_attr( $grid_columns ) . ';' ) ); ?>>
+    <div <?php echo get_block_wrapper_attributes( array( 'class' => implode( ' ', $additional_classes ), 'style' => $inline_styles ) ); ?>>
         <div class="castle-event-block__image-column">
             <?php if ( ! empty( $link_url ) ) : ?>
                 <a href="<?php echo $link_url; ?>" class="castle-event-block__image-link">

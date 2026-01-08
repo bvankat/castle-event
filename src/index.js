@@ -128,7 +128,8 @@
             const blockProps = useBlockProps({
                 className: 'castle-event-block-editor' 
                     + ( mediaPosition === 'right' ? ' is-media-right' : '' )
-                    + ( stackOnMobile ? '' : ' is-not-stacked-on-mobile' ),
+                    + ( stackOnMobile ? '' : ' is-not-stacked-on-mobile' )
+                    + ( verticalAlignment ? ' is-vertically-aligned-' + verticalAlignment : '' ),
                 style: { '--castle-grid-columns': gridColumns }
             });
 

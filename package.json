@@ -1,0 +1,18 @@
+{
+    "name": "castle-event-block",
+    "version": "1.0.0",
+    "description": "A custom Gutenberg block for highlighting special events at the castle.",
+    "author": "Your Name",
+    "license": "GPL-2.0-or-later",
+    "main": "build/index.js",
+    "scripts": {
+        "build": "wp-scripts build",
+        "start": "wp-scripts start",
+        "format": "wp-scripts format",
+        "lint:js": "wp-scripts lint-js",
+        "lint:css": "wp-scripts lint-style"
+    },
+    "devDependencies": {
+        "@wordpress/scripts": "^27.0.0"
+    }
+}

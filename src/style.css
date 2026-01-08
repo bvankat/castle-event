@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: var(--castle-grid-columns, 1fr 1fr);
     gap: 2rem;
-    align-items: start;
+    align-items: stretch;
     margin-bottom: 2rem;
 }
 
@@ -126,7 +126,20 @@
 /* Media right layout */
 .wp-block-castle-event-block.is-media-right .castle-event-block__image-column {
     grid-column: 2;
+    grid-row: 1;
 }
 .wp-block-castle-event-block.is-media-right .castle-event-block__content-column {
     grid-column: 1;
+    grid-row: 1;
+}
+
+/* Vertical alignment for content column */
+.wp-block-castle-event-block.is-vertically-aligned-top .castle-event-block__content-column {
+    align-self: start;
+}
+.wp-block-castle-event-block.is-vertically-aligned-center .castle-event-block__content-column {
+    align-self: center;
+}
+.wp-block-castle-event-block.is-vertically-aligned-bottom .castle-event-block__content-column {
+    align-self: end;
 }

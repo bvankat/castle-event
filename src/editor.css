@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: var(--castle-grid-columns, 1fr 1fr);
     gap: 2rem;
-    align-items: start;
+    align-items: stretch;
     padding: 1rem;
     border: 1px solid #e0e0e0;
     background: #fafafa;
@@ -167,7 +167,20 @@
 /* Media right in editor */
 .castle-event-block-editor.is-media-right .castle-event-block__image-column {
     grid-column: 2;
+    grid-row: 1;
 }
 .castle-event-block-editor.is-media-right .castle-event-block__content-column {
     grid-column: 1;
+    grid-row: 1;
+}
+
+/* Vertical alignment for content column in editor */
+.castle-event-block-editor.is-vertically-aligned-top .castle-event-block__content-column {
+    align-self: start;
+}
+.castle-event-block-editor.is-vertically-aligned-center .castle-event-block__content-column {
+    align-self: center;
+}
+.castle-event-block-editor.is-vertically-aligned-bottom .castle-event-block__content-column {
+    align-self: end;
 }

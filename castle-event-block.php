@@ -102,6 +102,10 @@ function castle_event_block_init() {
                 'type'    => 'number',
                 'default' => 50,
             ),
+            'verticalAlignment' => array(
+                'type'    => 'string',
+                'default' => 'center',
+            ),
         ),
     ) );
 }
@@ -162,6 +166,10 @@ function castle_event_block_render( $attributes ) {
 
     // Grid columns via CSS variable so mobile stacking can override
     $grid_columns = ( 'right' === $media_pos ) ? '1fr ' . $media_width . '%' : $media_width . '% 1fr';
+    $vertical_alignment = $attributes['verticalAlignment'] ?? 'center';
+    if ( in_array( $vertical_alignment, array( 'top', 'center', 'bottom' ), true ) ) {
+        $additional_classes[] = 'is-vertically-aligned-' . $vertical_alignment;
+    }
 
     // Start output buffer
     ob_start();

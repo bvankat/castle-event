@@ -11,7 +11,8 @@
         MediaUploadCheck,
         RichText,
         InspectorControls,
-        BlockControls
+        BlockControls,
+        BlockVerticalAlignmentToolbar
     } = wp.blockEditor;
     const { 
         PanelBody, 
@@ -95,6 +96,10 @@
                 type: 'number',
                 default: 50, // percentage
             },
+            verticalAlignment: {
+                type: 'string',
+                default: 'center', // 'top' | 'center' | 'bottom'
+            },
         },
 
         edit: function( props ) {
@@ -112,7 +117,8 @@
                 aspectRatio,
                 stackOnMobile,
                 mediaPosition,
-                mediaWidth
+                mediaWidth,
+                verticalAlignment
             } = attributes;
 
             var gridColumns = ( mediaPosition === 'right' )
@@ -173,7 +179,11 @@
                             isPressed: mediaPosition === 'right',
                             onClick: function() { setAttributes( { mediaPosition: 'right' } ); }
                         } )
-                    )
+                    ),
+                    el( BlockVerticalAlignmentToolbar, {
+                        value: verticalAlignment,
+                        onChange: function( value ) { setAttributes( { verticalAlignment: value || 'top' } ); }
+                    })
                 ),
                 el( InspectorControls, {},
                     el( PanelBody, { title: __( 'Event Settings', 'castle-event-block' ), initialOpen: true },

@@ -35,9 +35,9 @@ function castle_event_block_init() {
     // Register frontend styles
     wp_register_style(
         'castle-event-block-style',
-        plugins_url( 'build/style.css', __FILE__ ),
+        plugins_url( 'build/style-style.css', __FILE__ ),
         array(),
-        filemtime( plugin_dir_path( __FILE__ ) . 'build/style.css' )
+        filemtime( plugin_dir_path( __FILE__ ) . 'build/style-style.css' )
     );
 
     // Register the block

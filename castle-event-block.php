@@ -145,7 +145,7 @@ function castle_event_block_render( $attributes ) {
         '16:9'      => 56.25,
         '9:16'      => 177.78,
     );
-    $aspect_padding = isset( $aspect_ratios[ $aspect_ratio ] ) ? $aspect_ratios[ $aspect_ratio ] : 75;
+    $aspect_padding = array_key_exists( $aspect_ratio, $aspect_ratios ) ? $aspect_ratios[ $aspect_ratio ] : 75;
 
     // Determine if event has ended
     $is_past_event = false;
